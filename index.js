@@ -8,8 +8,12 @@ const delMsg = () => {
             const chatId = msg.chat.id
             const messageId = msg.message_id
             const name = msg.from.first_name
-            await bot.deleteMessage(chatId, messageId)
-            await bot.sendMessage(chatId, `${name}, аудиосообщения запрещены в чате`)
+            try {
+                await bot.deleteMessage(chatId, messageId)
+                await bot.sendMessage(chatId, `${name}, аудиосообщения запрещены в чате`)
+            } catch (e) {
+                console.log(e)
+            }
         }
     })
 }
