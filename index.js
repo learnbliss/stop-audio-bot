@@ -7,10 +7,13 @@ const delMsg = () => {
         if (msg.voice) {
             const chatId = msg.chat.id
             const messageId = msg.message_id
-            const name = msg.from.first_name
+            const name = msg.from.username || 'Безымянный'
             try {
                 await bot.deleteMessage(chatId, messageId)
-                await bot.sendMessage(chatId, `${name}, аудиосообщения запрещены в чате`)
+                await bot.sendMessage(chatId, `@${name}, аудиосообщения запрещены в чате`)
+                    .then((botMessage) => setTimeout(() => {
+                        bot.deleteMessage(chatId, botMessage.message_id)
+                    }, 20000))
             } catch (e) {
                 console.log(e)
             }
