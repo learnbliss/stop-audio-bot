@@ -10,7 +10,7 @@ const delMsg = () => {
             const name = msg.from.username || 'Безымянный'
             try {
                 await bot.deleteMessage(chatId, messageId)
-                await bot.sendMessage(chatId, `@${name}, аудиосообщения запрещены в чате`)
+                await bot.sendMessage(chatId, `@${name}, голосовухи зло в групповых чатах 🤐`)
                     .then((botMessage) => setTimeout(() => {
                         bot.deleteMessage(chatId, botMessage.message_id)
                     }, 20000))
