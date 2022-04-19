@@ -14,7 +14,7 @@ const delMsg = () => {
                 await bot.deleteMessage(chatId, messageId)
                 const botMessage = await bot.sendMessage(chatId, `${name}, голосовые сообщения запрещены в чате 🤐`)
                 const handler = setTimeout(() => {
-                    bot.deleteMessage(chatId, botMessage.message_id)
+                    bot.deleteMessage(chatId, botMessage?.message_id)
                     clearTimeout(handler)
                 }, 20000)
             } catch (e) {
