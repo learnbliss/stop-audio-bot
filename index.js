@@ -4,20 +4,23 @@ const token = process.env.API_KEY;
 const bot = new TelegramApi(token, {polling: true})
 const delMsg = () => {
     bot.on('message', async (msg) => {
-        if (msg.voice) {
+            if (!msg.voice) {
+                return
+            }
             const chatId = msg.chat.id
             const messageId = msg.message_id
-            const name = msg.from.username || 'Безымянный'
+            const name = `@${msg.from.username}` || msg.from.first_name || 'Безымянный'
             try {
                 await bot.deleteMessage(chatId, messageId)
-                await bot.sendMessage(chatId, `@${name}, голосовухи зло в групповых чатах 🤐`)
-                    .then((botMessage) => setTimeout(() => {
-                        bot.deleteMessage(chatId, botMessage.message_id)
-                    }, 20000))
+                const botMessage = await bot.sendMessage(chatId, `${name}, голосовые сообщения запрещены в чате 🤐`)
+                const handler = setTimeout(() => {
+                    bot.deleteMessage(chatId, botMessage.message_id)
+                    clearTimeout(handler)
+                }, 20000)
             } catch (e) {
                 console.log(e)
             }
         }
-    })
+    )
 }
-delMsg();
+delMsg()
